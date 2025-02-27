@@ -353,12 +353,8 @@
                     </div>
                     <div class="related-topics">
                         <h3>Related Topics:</h3>
-                        <div class="report-list">
-                            <p>"Accumulation Goals"</p>
-                            <p>"Individual Disability Income Insurance"</p>
-                            <p>"The Need for Retirement Planning"</p>
-                            <p>"Term Life Insurance"</p>
-                            <p>"Advantages of a Will"</p>
+                        <div class="report-list" id="relatedTopicsList">
+                            <!-- Populated by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -387,6 +383,7 @@
         const additionalText = document.getElementById('additionalText');
         const chartCanvas = document.getElementById('comparisonChart');
         const learnMoreList = document.getElementById('learnMoreList');
+        const relatedTopicsList = document.getElementById('relatedTopicsList');
 
         const ctx = chartCanvas.getContext('2d');
         const comparisonChart = new Chart(ctx, {
@@ -445,6 +442,42 @@
             learnMoreList.innerHTML = selected.map(report => `<p>"${report}"</p>`).join('');
         }
         populateLearnMore();
+
+        // Randomize 3 reports for Related Topics section with max one per category
+        const relatedTopicsReports = [
+            { title: "Accumulation Goals", category: "General" },
+            { title: "Basic Steps in the Financial Planning Process", category: "General" },
+            { title: "Choose the Financial Planning Team", category: "General" },
+            { title: "Individual Disability Income Insurance", category: "Disability" },
+            { title: "The Impact of Disability", category: "Disability" },
+            { title: "The Individual Need for Disability Insurance", category: "Disability" },
+            { title: "The Need for Retirement Planning", category: "Retirement" },
+            { title: "How a Roth IRA Works", category: "Retirement" },
+            { title: "IRAs Compared", category: "Retirement" },
+            { title: "How a 401(k) Cash or Deferred Plan Works", category: "Retirement" },
+            { title: "Term Life Insurance", category: "Life Insurance" },
+            { title: "The Need for Responsible Planning", category: "Life Insurance" },
+            { title: "Types of Life Insurance Policies", category: "Life Insurance" },
+            { title: "Advantages of a Will", category: "Estate Planning" },
+            { title: "Avoiding Probate", category: "Estate Planning" },
+            { title: "Basic Steps in the Estate Planning Process", category: "Estate Planning" },
+            { title: "The Importance of Beneficiary Designations", category: "Estate Planning" },
+            { title: "Types of Wills and Trusts", category: "Estate Planning" },
+            { title: "The Need for Estate Planning", category: "Estate Planning" }
+        ];
+        function populateRelatedTopics() {
+            const shuffled = relatedTopicsReports.sort(() => 0.5 - Math.random());
+            const selected = [];
+            const usedCategories = new Set();
+            for (const report of shuffled) {
+                if (!usedCategories.has(report.category) && selected.length < 3) {
+                    selected.push(report.title);
+                    usedCategories.add(report.category);
+                }
+            }
+            relatedTopicsList.innerHTML = selected.map(report => `<p>"${report}"</p>`).join('');
+        }
+        populateRelatedTopics();
 
         function calculateMinimumPayment(debtBalance, interestRate, termMonths) {
             const monthlyRate = interestRate / 100 / 12;
