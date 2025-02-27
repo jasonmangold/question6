@@ -348,17 +348,17 @@
                 <p id="additionalText"></p>
                 <div class="learn-more">
                     <h3>Learn More:</h3>
-                    <div class="report-list">
-                        <p>"Debt Management Strategies"</p>
-                        <p>"Investment Options Explained"</p>
-                        <p>"Tax Implications of Debt and Investing"</p>
+                    <div class="report-list" id="learnMoreList">
+                        <!-- Populated by JavaScript -->
                     </div>
                     <div class="related-topics">
                         <h3>Related Topics:</h3>
                         <div class="report-list">
-                            <p>"Scholarship Strategies"</p>
-                            <p>"Student Loan Options"</p>
-                            <p>"Budgeting for College"</p>
+                            <p>"Accumulation Goals"</p>
+                            <p>"Individual Disability Income Insurance"</p>
+                            <p>"The Need for Retirement Planning"</p>
+                            <p>"Term Life Insurance"</p>
+                            <p>"Advantages of a Will"</p>
                         </div>
                     </div>
                 </div>
@@ -386,6 +386,7 @@
         const resultMessage = document.getElementById('resultMessage');
         const additionalText = document.getElementById('additionalText');
         const chartCanvas = document.getElementById('comparisonChart');
+        const learnMoreList = document.getElementById('learnMoreList');
 
         const ctx = chartCanvas.getContext('2d');
         const comparisonChart = new Chart(ctx, {
@@ -426,6 +427,24 @@
                 }
             }
         });
+
+        // Randomize 3 reports for Learn More section
+        const learnMoreReports = [
+            "Accumulation Goals", "Purchasing Power of One Dollar", "Checking Your Credit Report",
+            "Credit Cards", "Debt Repayment Strategies", "Managing Your Debt",
+            "Repaying Student Debt", "Time and Growth of Money", "Up to Your Neck in Debt?",
+            "Asset Allocation", "Basic Investment Tools", "Coping With Market Volatility",
+            "Federal Taxation of Common Investments", "Key Investment Questions",
+            "Pay Off the Mortgage or Invest?", "Stock Market Indexes and Averages",
+            "The Perfect Investment", "The Rule of 72 and the Rule of 115", "Types of Investment Risk",
+            "Dollar Cost Averaging"
+        ];
+        function populateLearnMore() {
+            const shuffled = learnMoreReports.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 3);
+            learnMoreList.innerHTML = selected.map(report => `<p>"${report}"</p>`).join('');
+        }
+        populateLearnMore();
 
         function calculateMinimumPayment(debtBalance, interestRate, termMonths) {
             const monthlyRate = interestRate / 100 / 12;
